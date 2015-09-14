@@ -307,18 +307,27 @@ static void diag_usb_write_done(struct diag_usb_info *ch,
 	int len = 0;
 	struct diag_usb_buf_tbl_t *entry = NULL;
 	unsigned char *buf = NULL;
+	/* MOT: comment out
 	unsigned long flags;
+	*/
 
 	if (!ch || !req)
 		return;
 
+	/* MOT: diag_usb_write uses write_lock as well, tty_diag_channel_write
+	directly send USB_DIAG_WRITE_DONE, this can cause a deadlock here.
+	Actually, diag_ws_on_copy_complete has its own lock, we don't need lock
+	here
 	spin_lock_irqsave(&ch->write_lock, flags);
+	*/
 	ch->write_cnt++;
 	entry = diag_usb_buf_tbl_get(ch, req->context);
 	if (!entry) {
 		pr_err_ratelimited("diag: In %s, unable to find entry %pK in the table\n",
 				   __func__, req->context);
+		/* MOT: comment out
 		spin_unlock_irqrestore(&ch->write_lock, flags);
+		*/
 		return;
 	}
 	if (atomic_read(&entry->ref_count) != 0) {
@@ -326,7 +335,9 @@ static void diag_usb_write_done(struct diag_usb_info *ch,
 			 atomic_read(&entry->ref_count));
 		diag_ws_on_copy_complete(DIAG_WS_MUX);
 		diagmem_free(driver, req, ch->mempool);
+		/* MOT: comment out
 		spin_unlock_irqrestore(&ch->write_lock, flags);
+		*/
 		return;
 	}
 	DIAG_LOG(DIAG_DEBUG_MUX, "full write_done, ctxt: %d\n",
@@ -345,7 +356,9 @@ static void diag_usb_write_done(struct diag_usb_info *ch,
 	len = 0;
 	ctxt = 0;
 	diagmem_free(driver, req, ch->mempool);
+	/* MOT: comment out
 	spin_unlock_irqrestore(&ch->write_lock, flags);
+	*/
 }
 
 static void diag_usb_notifier(void *priv, unsigned int event,
