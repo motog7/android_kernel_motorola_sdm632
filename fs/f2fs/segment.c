@@ -240,6 +240,8 @@ static int __revoke_inmem_pages(struct inode *inode,
 
 		f2fs_wait_on_page_writeback(page, DATA, true, true);
 
+		f2fs_wait_on_page_writeback(page, DATA, true);
+
 		if (recover) {
 			struct dnode_of_data dn;
 			struct node_info ni;
