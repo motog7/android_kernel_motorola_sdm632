@@ -30,6 +30,8 @@
 #include <linux/reboot.h>
 #include <linux/string.h>
 #include <linux/vmalloc.h>
+#include <linux/version.h>
+#include <linux/blk_types.h>
 
 #include <asm/setup.h>
 #include <crypto/hash.h>
@@ -123,6 +125,85 @@ static inline bool is_unlocked(void)
 	return !strncmp(verifiedbootstate, unlocked, sizeof(unlocked));
 }
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0))
+static int table_extract_signature(struct public_key_signature *pks,
+				const void *data, size_t len)
+{
+	pks->s = (u8*)data;
+	pks->s_size = len;
+	pks->pkey_algo = "rsa";
+	return 0;
+}
+#else
+static int table_extract_mpi_array(struct public_key_signature *pks,
+                               const void *data, size_t len)
+{
+	MPI mpi = mpi_read_raw_data(data, len);
+	if (!mpi) {
+		DMERR("Error while allocating mpi array");
+		return -ENOMEM;
+	}
+
+	pks->mpi[0] = mpi;
+	pks->nr_mpi = 1;
+	return 0;
+}
+#endif
+
+static struct public_key_signature *table_make_digest(
+						enum hash_algo hash,
+						const void *table,
+						unsigned long table_len)
+{
+	struct public_key_signature *pks = NULL;
+	struct crypto_shash *tfm;
+	struct shash_desc *desc;
+	size_t digest_size, desc_size;
+	int ret;
+
+	/* Allocate the hashing algorithm we're going to need and find out how
+	 * big the hash operational data will be.
+	 */
+	tfm = crypto_alloc_shash(hash_algo_name[hash], 0, 0);
+	if (IS_ERR(tfm))
+		return ERR_CAST(tfm);
+
+	desc_size = crypto_shash_descsize(tfm) + sizeof(*desc);
+	digest_size = crypto_shash_digestsize(tfm);
+
+	/* We allocate the hash operational data storage on the end of out
+	 * context data and the digest output buffer on the end of that.
+	 */
+	ret = -ENOMEM;
+	pks = kzalloc(digest_size + sizeof(*pks) + desc_size, GFP_KERNEL);
+	if (!pks)
+		goto error;
+
+	pks->hash_algo = hash_algo_name[hash];
+	pks->digest = (u8 *)pks + sizeof(*pks) + desc_size;
+	pks->digest_size = digest_size;
+
+	desc = (struct shash_desc *)(pks + 1);
+	desc->tfm = tfm;
+	desc->flags = CRYPTO_TFM_REQ_MAY_SLEEP;
+
+	ret = crypto_shash_init(desc);
+	if (ret < 0)
+		goto error;
+
+	ret = crypto_shash_finup(desc, table, table_len, pks->digest);
+	if (ret < 0)
+		goto error;
+
+	crypto_free_shash(tfm);
+	return pks;
+
+error:
+	kfree(pks);
+	crypto_free_shash(tfm);
+	return ERR_PTR(ret);
+}
+
 static int read_block_dev(struct bio_read *payload, struct block_device *bdev,
 		sector_t offset, int length)
 {
@@ -162,6 +243,8 @@ static int read_block_dev(struct bio_read *payload, struct block_device *bdev,
 			goto free_pages;
 		}
 	}
+
+	bio_set_op_attrs(bio, REQ_OP_READ, 0);
 
 	if (!submit_bio_wait(bio))
 		/* success */
@@ -576,6 +659,16 @@ static int verify_verity_signature(char *key_id,
 	if (!key_id)
 		goto error;
 
+	key_ref = keyring_search(make_key_ref(get_system_trusted_keyring(), 1),
+		&key_type_asymmetric, key_id);
+
+	if (IS_ERR(key_ref)) {
+		DMERR("keyring: key not found");
+		return -ENOKEY;
+	}
+
+	key = key_ref_to_ptr(key_ref);
+
 	pks = table_make_digest(HASH_ALGO_SHA256,
 			(const void *)metadata->verity_table,
 			le32_to_cpu(metadata->header->table_length));
@@ -595,6 +688,25 @@ static int verify_verity_signature(char *key_id,
 
 	retval = verify_signature_one(pks, NULL, key_id);
 	kfree(pks->s);
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0))
+	retval = table_extract_signature(pks, &metadata->header->signature[0],
+				RSANUMBYTES);
+	if (retval < 0) {
+		DMERR("Error extracting signature %d", retval);
+		goto error;
+	}
+#else
+	retval = table_extract_mpi_array(pks, &metadata->header->signature[0],
+				RSANUMBYTES);
+	if (retval < 0) {
+		DMERR("Error extracting mpi %d", retval);
+		goto error;
+	}
+	mpi_free(pks->rsa.s);
+#endif
+
+	retval = verify_signature(key, pks);
 error:
 	kfree(pks);
 	return retval;
@@ -671,8 +783,8 @@ static int android_verity_ctr(struct dm_target *ti, unsigned argc, char **argv)
 	dev_t uninitialized_var(dev);
 	struct android_metadata *metadata = NULL;
 	int err = 0, i, mode;
-	char *key_id = NULL, *table_ptr, dummy, *target_device;
-	char *verity_table_args[VERITY_TABLE_ARGS + 2 + VERITY_TABLE_OPT_FEC_ARGS];
+	char *key_id = NULL, *table_ptr, dummy, *target_device,
+	*verity_table_args[VERITY_TABLE_ARGS + 2 + VERITY_TABLE_OPT_FEC_ARGS];
 	/* One for specifying number of opt args and one for mode */
 	sector_t data_sectors;
 	u32 data_block_size;
