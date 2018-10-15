@@ -3800,6 +3800,9 @@ static int msm_isp_request_frame(struct vfe_device *vfe_dev,
 			}
 			pr_err_ratelimited("%s:%d fail to cfg HAL buffer stream %x\n",
 				__func__, __LINE__, stream_info->stream_id);
+			queue_req->cmd_used = 0;
+			list_del(&queue_req->list);
+			stream_info->request_q_cnt--;
 			return rc;
 		}
 
@@ -3844,6 +3847,9 @@ static int msm_isp_request_frame(struct vfe_device *vfe_dev,
 			}
 			pr_err_ratelimited("%s:%d fail to cfg HAL buffer\n",
 				__func__, __LINE__);
+			queue_req->cmd_used = 0;
+			list_del(&queue_req->list);
+			stream_info->request_q_cnt--;
 			return rc;
 		}
 	} else {
