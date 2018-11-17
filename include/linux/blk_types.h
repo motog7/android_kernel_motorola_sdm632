@@ -188,9 +188,6 @@ enum rq_flag_bits {
 	__REQ_FUA,		/* forced unit access */
 	__REQ_PREFLUSH,		/* request for cache flush */
 	__REQ_BARRIER,		/* marks flush req as barrier */
-        /* Android specific flags */
-	__REQ_NOENCRYPT,	/* ok to not encrypt (already encrypted at fs
-				   level) */
 
 	/* bio only flags */
 	__REQ_RAHEAD,		/* read ahead, can fail anytime */
