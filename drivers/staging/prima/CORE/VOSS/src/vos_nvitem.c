@@ -243,7 +243,7 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_ETSI, {'A', 'M'}}, //ARMENIA
       {REGDOMAIN_ETSI, {'A', 'N'}}, //NETHERLANDS ANTILLES
       {REGDOMAIN_WORLD, {'A', 'R'}}, //ARGENTINA
-      {REGDOMAIN_FCC, {'A', 'S'}}, //AMERICAN SOMOA
+      {REGDOMAIN_ETSI, {'A', 'S'}}, //AMERICAN SOMOA
       {REGDOMAIN_ETSI, {'A', 'T'}}, //AUSTRIA
       {REGDOMAIN_ETSI, {'A', 'U'}}, //AUSTRALIA
       {REGDOMAIN_ETSI , {'A', 'W'}}, //ARUBA
@@ -255,14 +255,14 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_ETSI, {'B', 'G'}}, //BULGARIA
       {REGDOMAIN_APAC, {'B', 'H'}}, //BAHRAIN
       {REGDOMAIN_ETSI, {'B', 'L'}}, //
-      {REGDOMAIN_FCC, {'B', 'M'}}, //BERMUDA
+      {REGDOMAIN_ETSI, {'B', 'M'}}, //BERMUDA
       {REGDOMAIN_APAC, {'B', 'N'}}, //BRUNEI DARUSSALAM
       {REGDOMAIN_ETSI, {'B', 'O'}}, //BOLIVIA
       {REGDOMAIN_WORLD, {'B', 'R'}}, //BRAZIL
       {REGDOMAIN_APAC, {'B', 'S'}}, //BAHAMAS
       {REGDOMAIN_ETSI, {'B', 'Y'}}, //BELARUS
       {REGDOMAIN_ETSI, {'B', 'Z'}}, //BELIZE
-      {REGDOMAIN_FCC, {'C', 'A'}}, //CANADA
+      {REGDOMAIN_ETSI, {'C', 'A'}}, //CANADA
       {REGDOMAIN_ETSI, {'C', 'H'}}, //SWITZERLAND
       {REGDOMAIN_APAC, {'C', 'L'}}, //CHILE
       {REGDOMAIN_APAC, {'C', 'N'}}, //CHINA
@@ -289,7 +289,7 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_ETSI, {'G', 'P'}}, //GUADELOUPE
       {REGDOMAIN_ETSI, {'G', 'R'}}, //GREECE
       {REGDOMAIN_APAC, {'G', 'T'}},  //GUATEMALA
-      {REGDOMAIN_FCC, {'G', 'U'}},  //GUAM
+      {REGDOMAIN_ETSI, {'G', 'U'}},  //GUAM
       {REGDOMAIN_ETSI, {'H', 'U'}}, //HUNGARY
       {REGDOMAIN_ETSI, {'I', 'D'}},  //INDONESIA
       {REGDOMAIN_ETSI, {'I', 'E'}}, //IRELAND
@@ -318,7 +318,7 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_ETSI, {'M', 'K'}}, //MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF
       {REGDOMAIN_WORLD, {'M','N'}}, //MONGOLIA
       {REGDOMAIN_APAC, {'M', 'O'}}, //MACAO
-      {REGDOMAIN_FCC, {'M', 'P'}}, //NORTHERN MARIANA ISLANDS
+      {REGDOMAIN_ETSI, {'M', 'P'}}, //NORTHERN MARIANA ISLANDS
       {REGDOMAIN_ETSI, {'M', 'Q'}}, //MARTINIQUE
       {REGDOMAIN_ETSI, {'M', 'T'}}, //MALTA
       {REGDOMAIN_ETSI, {'M', 'U'}}, //MAURITIUS
@@ -339,7 +339,7 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_WORLD, {'P', 'H'}}, //PHILIPPINES
       {REGDOMAIN_ETSI, {'P', 'K'}}, //PAKISTAN
       {REGDOMAIN_ETSI, {'P', 'L'}}, //POLAND
-      {REGDOMAIN_FCC, {'P', 'R'}}, //PUERTO RICO
+      {REGDOMAIN_ETSI, {'P', 'R'}}, //PUERTO RICO
       {REGDOMAIN_WORLD, {'P', 'S'}}, //PALESTINIAN TERRITORY, OCCUPIED
       {REGDOMAIN_ETSI, {'P', 'T'}}, //PORTUGAL
       {REGDOMAIN_WORLD, {'P', 'Y'}}, //PARAGUAY
@@ -360,15 +360,15 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_ETSI, {'T', 'N'}}, //TUNISIA
       {REGDOMAIN_ETSI, {'T', 'R'}}, //TURKEY
       {REGDOMAIN_WORLD, {'T', 'T'}}, //TRINIDAD AND TOBAGO
-      {REGDOMAIN_FCC, {'T', 'W'}}, //TAIWAN, PRIVINCE OF CHINA
+      {REGDOMAIN_ETSI, {'T', 'W'}}, //TAIWAN, PRIVINCE OF CHINA
       {REGDOMAIN_ETSI, {'T', 'Z'}}, //TANZANIA, UNITED REPUBLIC OF
       {REGDOMAIN_WORLD, {'U', 'A'}}, //UKRAINE
       {REGDOMAIN_KOREA, {'U', 'G'}}, //UGANDA
-      {REGDOMAIN_FCC, {'U', 'S'}}, //USA
+      {REGDOMAIN_ETSI, {'U', 'S'}}, //USA
       {REGDOMAIN_WORLD, {'U', 'Y'}}, //URUGUAY
       {REGDOMAIN_ETSI, {'U', 'Z'}}, //UZBEKISTAN
       {REGDOMAIN_ETSI, {'V', 'E'}}, //VENEZUELA
-      {REGDOMAIN_FCC, {'V', 'I'}}, //VIRGIN ISLANDS, US
+      {REGDOMAIN_ETSI, {'V', 'I'}}, //VIRGIN ISLANDS, US
       {REGDOMAIN_ETSI, {'V', 'N'}}, //VIETNAM
       {REGDOMAIN_ETSI, {'Y', 'E'}}, //YEMEN
       {REGDOMAIN_ETSI, {'Y', 'T'}}, //MAYOTTE
@@ -387,19 +387,19 @@ static CountryInfoTable_t countryInfoTable =
 {
     254,
     {
-        { REGDOMAIN_FCC,     {'U', 'S'}},  //USA - must be the first country code
+        { REGDOMAIN_ETSI,     {'U', 'S'}},  //USA - must be the first country code
         { REGDOMAIN_ETSI,    {'A', 'D'}},  //ANDORRA
         { REGDOMAIN_ETSI,    {'A', 'E'}},  //UAE
         { REGDOMAIN_N_AMER_EXC_FCC, {'A', 'F'}},  //AFGHANISTAN
         { REGDOMAIN_WORLD,   {'A', 'G'}},  //ANTIGUA AND BARBUDA
-        { REGDOMAIN_FCC,     {'A', 'I'}},  //ANGUILLA
+        { REGDOMAIN_ETSI,     {'A', 'I'}},  //ANGUILLA
         { REGDOMAIN_ETSI,    {'A', 'L'}},  //ALBANIA
         { REGDOMAIN_N_AMER_EXC_FCC, {'A', 'M'}},  //ARMENIA
         { REGDOMAIN_ETSI,    {'A', 'N'}},  //NETHERLANDS ANTILLES
         { REGDOMAIN_NO_5GHZ, {'A', 'O'}},  //ANGOLA
         { REGDOMAIN_WORLD,   {'A', 'Q'}},  //ANTARCTICA
         { REGDOMAIN_WORLD,   {'A', 'R'}},  //ARGENTINA
-        { REGDOMAIN_FCC,     {'A', 'S'}},  //AMERICAN SOMOA
+        { REGDOMAIN_ETSI,     {'A', 'S'}},  //AMERICAN SOMOA
         { REGDOMAIN_ETSI,    {'A', 'T'}},  //AUSTRIA
         { REGDOMAIN_WORLD,   {'A', 'U'}},  //AUSTRALIA
         { REGDOMAIN_ETSI,    {'A', 'W'}},  //ARUBA
@@ -414,7 +414,7 @@ static CountryInfoTable_t countryInfoTable =
         { REGDOMAIN_APAC,    {'B', 'H'}},  //BAHRAIN
         { REGDOMAIN_NO_5GHZ, {'B', 'I'}},  //BURUNDI
         { REGDOMAIN_NO_5GHZ, {'B', 'J'}},  //BENIN
-        { REGDOMAIN_FCC,     {'B', 'M'}},  //BERMUDA
+        { REGDOMAIN_ETSI,     {'B', 'M'}},  //BERMUDA
         { REGDOMAIN_APAC,    {'B', 'N'}},  //BRUNEI DARUSSALAM
         { REGDOMAIN_HI_5GHZ, {'B', 'O'}},  //BOLIVIA
         { REGDOMAIN_WORLD,   {'B', 'R'}},  //BRAZIL
@@ -424,7 +424,7 @@ static CountryInfoTable_t countryInfoTable =
         { REGDOMAIN_ETSI,    {'B', 'W'}},  //BOTSWANA
         { REGDOMAIN_ETSI,    {'B', 'Y'}},  //BELARUS
         { REGDOMAIN_HI_5GHZ, {'B', 'Z'}},  //BELIZE
-        { REGDOMAIN_FCC,     {'C', 'A'}},  //CANADA
+        { REGDOMAIN_ETSI,     {'C', 'A'}},  //CANADA
         { REGDOMAIN_WORLD,   {'C', 'C'}},  //COCOS (KEELING) ISLANDS
         { REGDOMAIN_NO_5GHZ, {'C', 'D'}},  //CONGO, THE DEMOCRATIC REPUBLIC OF THE
         { REGDOMAIN_NO_5GHZ, {'C', 'F'}},  //CENTRAL AFRICAN REPUBLIC
@@ -478,7 +478,7 @@ static CountryInfoTable_t countryInfoTable =
         { REGDOMAIN_ETSI,    {'G', 'R'}},  //GREECE
         { REGDOMAIN_WORLD,   {'G', 'S'}},  //SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS
         { REGDOMAIN_APAC,    {'G', 'T'}},  //GUATEMALA
-        { REGDOMAIN_FCC,     {'G', 'U'}},  //GUAM
+        { REGDOMAIN_ETSI,     {'G', 'U'}},  //GUAM
         { REGDOMAIN_NO_5GHZ, {'G', 'W'}},  //GUINEA-BISSAU
         { REGDOMAIN_HI_5GHZ, {'G', 'Y'}},  //GUYANA
         { REGDOMAIN_WORLD,   {'H', 'K'}},  //HONGKONG
@@ -519,7 +519,7 @@ static CountryInfoTable_t countryInfoTable =
         { REGDOMAIN_WORLD,   {'K', 'P'}},  //KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF
         { REGDOMAIN_KOREA,   {'K', 'R'}},  //KOREA, REPUBLIC OF
         { REGDOMAIN_N_AMER_EXC_FCC, {'K', 'W'}},  //KUWAIT
-        { REGDOMAIN_FCC,     {'K', 'Y'}},  //CAYMAN ISLANDS
+        { REGDOMAIN_ETSI,     {'K', 'Y'}},  //CAYMAN ISLANDS
         { REGDOMAIN_WORLD,   {'K', 'Z'}},  //KAZAKHSTAN
         { REGDOMAIN_WORLD,   {'L', 'A'}},  //LAO PEOPLE'S DEMOCRATIC REPUBLIC
         { REGDOMAIN_WORLD,   {'L', 'B'}},  //LEBANON
@@ -543,7 +543,7 @@ static CountryInfoTable_t countryInfoTable =
         { REGDOMAIN_WORLD,   {'M', 'M'}},  //MYANMAR
         { REGDOMAIN_WORLD,   {'M', 'N'}},  //MONGOLIA
         { REGDOMAIN_APAC,    {'M', 'O'}},  //MACAO
-        { REGDOMAIN_FCC,     {'M', 'P'}},  //NORTHERN MARIANA ISLANDS
+        { REGDOMAIN_ETSI,     {'M', 'P'}},  //NORTHERN MARIANA ISLANDS
         { REGDOMAIN_ETSI,    {'M', 'Q'}},  //MARTINIQUE
         { REGDOMAIN_ETSI,    {'M', 'R'}},  //MAURITANIA
         { REGDOMAIN_ETSI,    {'M', 'S'}},  //MONTSERRAT
@@ -576,7 +576,7 @@ static CountryInfoTable_t countryInfoTable =
         { REGDOMAIN_ETSI,    {'P', 'L'}},  //POLAND
         { REGDOMAIN_WORLD,   {'P', 'M'}},  //SAINT PIERRE AND MIQUELON
         { REGDOMAIN_WORLD,   {'P', 'N'}},  //WORLDPITCAIRN
-        { REGDOMAIN_FCC,     {'P', 'R'}},  //PUERTO RICO
+        { REGDOMAIN_ETSI,     {'P', 'R'}},  //PUERTO RICO
         { REGDOMAIN_WORLD,   {'P', 'S'}},  //PALESTINIAN TERRITORY, OCCUPIED
         { REGDOMAIN_ETSI,    {'P', 'T'}},  //PORTUGAL
         { REGDOMAIN_WORLD,   {'P', 'W'}},  //PALAU
@@ -620,19 +620,19 @@ static CountryInfoTable_t countryInfoTable =
         { REGDOMAIN_ETSI,    {'T', 'R'}},  //TURKEY
         { REGDOMAIN_WORLD,   {'T', 'T'}},  //TRINIDAD AND TOBAGO
         { REGDOMAIN_NO_5GHZ, {'T', 'V'}},  //TUVALU
-        { REGDOMAIN_FCC,     {'T', 'W'}},  //TAIWAN, PROVINCE OF CHINA
+        { REGDOMAIN_ETSI,     {'T', 'W'}},  //TAIWAN, PROVINCE OF CHINA
         { REGDOMAIN_HI_5GHZ, {'T', 'Z'}},  //TANZANIA, UNITED REPUBLIC OF
         { REGDOMAIN_WORLD,   {'U', 'A'}},  //UKRAINE
         { REGDOMAIN_KOREA,   {'U', 'G'}},  //UGANDA
-        { REGDOMAIN_FCC,     {'U', 'M'}},  //UNITED STATES MINOR OUTLYING ISLANDS
+        { REGDOMAIN_ETSI,     {'U', 'M'}},  //UNITED STATES MINOR OUTLYING ISLANDS
         { REGDOMAIN_WORLD,   {'U', 'Y'}},  //URUGUAY
-        { REGDOMAIN_FCC,     {'U', 'Z'}},  //UZBEKISTAN
+        { REGDOMAIN_ETSI,     {'U', 'Z'}},  //UZBEKISTAN
         { REGDOMAIN_ETSI,    {'V', 'A'}},  //HOLY SEE (VATICAN CITY STATE)
         { REGDOMAIN_WORLD,   {'V', 'C'}},  //SAINT VINCENT AND THE GRENADINES
         { REGDOMAIN_HI_5GHZ, {'V', 'E'}},  //VENEZUELA
         { REGDOMAIN_ETSI,    {'V', 'G'}},  //VIRGIN ISLANDS, BRITISH
-        { REGDOMAIN_FCC,     {'V', 'I'}},  //VIRGIN ISLANDS, US
-        { REGDOMAIN_FCC,     {'V', 'N'}},  //VIET NAM
+        { REGDOMAIN_ETSI,     {'V', 'I'}},  //VIRGIN ISLANDS, US
+        { REGDOMAIN_ETSI,     {'V', 'N'}},  //VIET NAM
         { REGDOMAIN_NO_5GHZ, {'V', 'U'}},  //VANUATU
         { REGDOMAIN_WORLD,   {'W', 'F'}},  //WALLIS AND FUTUNA
         { REGDOMAIN_N_AMER_EXC_FCC, {'W', 'S'}},  //SOMOA
