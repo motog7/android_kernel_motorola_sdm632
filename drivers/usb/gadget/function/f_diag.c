@@ -31,14 +31,6 @@
 
 #define MAX_INST_NAME_LEN	40
 
-#ifdef CONFIG_DIAG_OVER_TTY
-#include <linux/usb/tty_diag.h>
-#include <linux/of.h>
-
-static bool tty_mode;
-module_param(tty_mode, bool, S_IRUGO);
-#endif
-
 /* dload specific suppot */
 #define PID_MAGIC_ID		0x71432909
 #define SERIAL_NUM_MAGIC_ID	0x61945374
@@ -246,23 +238,6 @@ static inline int kref_put_spinlock_irqsave(struct kref *kref,
 	return 0;
 }
 
-#ifdef CONFIG_DIAG_OVER_TTY
-static bool factory_cable_present(void)
-{
-	struct device_node *np;
-	bool fact_cable;
-
-	np = of_find_node_by_path("/chosen");
-	fact_cable = of_property_read_bool(np, "mmi,factory-cable");
-	of_node_put(np);
-
-	if (!np || !fact_cable)
-		return false;
-
-	return true;
-}
-#endif
-
 /* Called with ctxt->lock held; i.e. only use with kref_put_spinlock_irqsave */
 static void diag_context_release(struct kref *kref)
 {
@@ -391,17 +366,6 @@ struct usb_diag_ch *usb_diag_open(const char *name, void *priv,
 	unsigned long flags;
 	int found = 0;
 
-#ifdef CONFIG_DIAG_OVER_TTY
-	static bool init;
-
-	if (!init) {
-		init = true;
-		tty_mode = factory_cable_present();
-	}
-
-	if (tty_mode)
-		return tty_diag_channel_open(name, priv, notify);
-#endif
 	spin_lock_irqsave(&ch_lock, flags);
 	/* Check if we already have a channel with this name */
 	list_for_each_entry(ch, &usb_diag_ch_list, list) {
@@ -444,10 +408,6 @@ void usb_diag_close(struct usb_diag_ch *ch)
 	struct diag_context *dev = NULL;
 	unsigned long flags;
 
-#ifdef CONFIG_DIAG_OVER_TTY
-	if (tty_mode)
-		return tty_diag_channel_close(ch);
-#endif
 	spin_lock_irqsave(&ch_lock, flags);
 	ch->priv = NULL;
 	ch->notify = NULL;
@@ -498,10 +458,6 @@ int usb_diag_alloc_req(struct usb_diag_ch *ch, int n_write, int n_read)
 	int i;
 	unsigned long flags;
 
-#ifdef CONFIG_DIAG_OVER_TTY
-	if (tty_mode)
-		return 0;
-#endif
 	if (!ctxt)
 		return -ENODEV;
 
@@ -546,10 +502,10 @@ EXPORT_SYMBOL(usb_diag_alloc_req);
  */
 int usb_diag_request_size(struct usb_diag_ch *ch)
 {
-	struct diag_context *ctxt = ch ? ch->priv_usb : NULL;
-	struct usb_composite_dev *cdev = ctxt ? ctxt->cdev : NULL;
+	struct diag_context *ctxt = ch->priv_usb;
+	struct usb_composite_dev *cdev = ctxt->cdev;
 
-	if (cdev && cdev->gadget && cdev->gadget->is_chipidea)
+	if (cdev->gadget->is_chipidea)
 		return CI_MAX_REQUEST_SIZE;
 
 	return DWC3_MAX_REQUEST_SIZE;
@@ -577,10 +533,6 @@ int usb_diag_read(struct usb_diag_ch *ch, struct diag_request *d_req)
 	struct usb_ep *out;
 	static DEFINE_RATELIMIT_STATE(rl, 10*HZ, 1);
 
-#ifdef CONFIG_DIAG_OVER_TTY
-	if (tty_mode)
-		return tty_diag_channel_read(ch, d_req);
-#endif
 	if (!ctxt)
 		return -ENODEV;
 
@@ -657,11 +609,6 @@ int usb_diag_write(struct usb_diag_ch *ch, struct diag_request *d_req)
 	struct usb_request *req = NULL;
 	struct usb_ep *in;
 	static DEFINE_RATELIMIT_STATE(rl, 10*HZ, 1);
-
-#ifdef CONFIG_DIAG_OVER_TTY
-	if (tty_mode)
-		return tty_diag_channel_write(ch, d_req);
-#endif
 
 	if (!ctxt)
 		return -ENODEV;
