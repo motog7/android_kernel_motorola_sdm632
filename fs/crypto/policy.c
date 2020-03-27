@@ -234,14 +234,14 @@ int fscrypt_has_permitted_context(struct inode *parent, struct inode *child)
 		if (!res) {
 			pr_warn("%s:(%s) crypt info mismatch %d-%s\n", __func__,
 				child->i_sb->s_id, current->pid, current->comm);
-			fs_encryption_info_print(parent,
+/*			fs_encryption_info_print(parent,
 				parent_ci->ci_master_key,
 				parent_ci->ci_data_mode,
 				parent_ci->ci_filename_mode,
 				parent_ci->ci_flags);
 			fs_encryption_info_print(child,
 				child_ci->ci_master_key, child_ci->ci_data_mode,
-				child_ci->ci_filename_mode, child_ci->ci_flags);
+				child_ci->ci_filename_mode, child_ci->ci_flags);*/
 		}
 		return res;
 	}
