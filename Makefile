@@ -1120,8 +1120,8 @@ define filechk_kernel.release
 endef
 
 # Store (new) KERNELRELEASE string in include/config/kernel.release
-include/config/kernel.release: include/config/auto.conf FORCE
-	$(call filechk,kernel.release)
+#include/config/kernel.release: include/config/auto.conf FORCE
+#	$(call filechk,kernel.release)
 
 
 # Things we need to do before we recursively start building the kernel

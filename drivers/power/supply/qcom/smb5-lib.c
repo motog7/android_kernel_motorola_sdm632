@@ -2999,6 +2999,7 @@ static void smblib_eval_chg_termination(struct smb_charger *chg, u8 batt_status)
 		chg->cc_soc_ref = 0;
 		chg->last_cc_soc = 0;
 	}
+}
 
 irqreturn_t smblib_handle_usbin_collapse(int irq, void *data)
 {
