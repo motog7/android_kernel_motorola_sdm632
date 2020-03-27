@@ -3773,6 +3773,7 @@ static int __ext4_block_zero_page_range(handle_t *handle,
 	struct inode *inode = mapping->host;
 	struct buffer_head *bh;
 	struct page *page;
+	bool decrypt = false;
 	int err = 0;
 
 	page = find_or_create_page(mapping, from >> PAGE_SHIFT,

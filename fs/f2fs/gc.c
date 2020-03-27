@@ -943,7 +943,7 @@ retry:
 
 		set_cold_data(page);
 
-		err = do_write_data_page(&fio);
+		err = f2fs_do_write_data_page(&fio);
 		if (err) {
 			clear_cold_data(page);
 			if (err == -ENOMEM) {
